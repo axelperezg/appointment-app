@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ServiceResource\Pages\ManageServices;
+use App\Filament\Resources\ServiceResource\Pages;
 use App\Models\Service;
 use BackedEnum;
 use Filament\Actions\DeleteAction;
@@ -82,7 +82,7 @@ class ServiceResource extends Resource
             ->filters([
                 //
             ])
-            ->recordActions([
+            ->actions([
                 EditAction::make(),
                 DeleteAction::make(),
             ]);
@@ -91,7 +91,9 @@ class ServiceResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ManageServices::route('/'),
+            'index' => Pages\ListServices::route('/'),
+            'create' => Pages\CreateService::route('/create'),
+            'edit' => Pages\EditService::route('/{record}/edit'),
         ];
     }
 }

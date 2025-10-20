@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ClientResource\Pages\ManageClients;
+use App\Filament\Resources\ClientResource\Pages;
 use App\Models\Client;
 use BackedEnum;
 use Filament\Actions\DeleteAction;
@@ -68,7 +68,7 @@ class ClientResource extends Resource
             ->filters([
                 //
             ])
-            ->recordActions([
+            ->actions([
                 EditAction::make(),
                 DeleteAction::make(),
             ]);
@@ -77,7 +77,9 @@ class ClientResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ManageClients::route('/'),
+            'index' => Pages\ListClients::route('/'),
+            'create' => Pages\CreateClient::route('/create'),
+            'edit' => Pages\EditClient::route('/{record}/edit'),
         ];
     }
 }

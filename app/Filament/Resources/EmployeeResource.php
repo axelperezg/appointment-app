@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\EmployeeResource\Pages\ManageEmployees;
+use App\Filament\Resources\EmployeeResource\Pages;
 use App\Models\Employee;
 use BackedEnum;
 use Filament\Actions\DeleteAction;
@@ -79,7 +79,7 @@ class EmployeeResource extends Resource
             ->filters([
                 //
             ])
-            ->recordActions([
+            ->actions([
                 EditAction::make(),
                 DeleteAction::make(),
             ]);
@@ -88,7 +88,9 @@ class EmployeeResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ManageEmployees::route('/'),
+            'index' => Pages\ListEmployees::route('/'),
+            'create' => Pages\CreateEmployee::route('/create'),
+            'edit' => Pages\EditEmployee::route('/{record}/edit'),
         ];
     }
 }
