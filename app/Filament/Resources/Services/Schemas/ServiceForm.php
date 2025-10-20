@@ -9,12 +9,7 @@ class ServiceForm
 {
     public static function configure(Schema $schema): Schema
     {
-        return $schema->components(self::getComponents());
-    }
-
-    public static function getComponents(): array
-    {
-        return [
+        return $schema->components([
             TextInput::make('name')
                 ->label('Nombre')
                 ->required()
@@ -41,6 +36,6 @@ class ServiceForm
                 ->default('#FF6B6B')
                 ->prefix('#')
                 ->helperText('Código hex del color (ej: FF6B6B)'),
-        ];
+        ]);
     }
 }

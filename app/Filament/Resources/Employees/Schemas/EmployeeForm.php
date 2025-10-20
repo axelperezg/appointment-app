@@ -9,12 +9,7 @@ class EmployeeForm
 {
     public static function configure(Schema $schema): Schema
     {
-        return $schema->components(self::getComponents());
-    }
-
-    public static function getComponents(): array
-    {
-        return [
+        return $schema->components([
             TextInput::make('name')
                 ->label('Nombre')
                 ->required()
@@ -37,6 +32,6 @@ class EmployeeForm
                 ->default(0)
                 ->suffix('minutos')
                 ->helperText('Tiempo mínimo requerido antes de reservar (en minutos)'),
-        ];
+        ]);
     }
 }
