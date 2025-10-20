@@ -46,6 +46,15 @@ class AppointmentCalendarWidget extends CalendarWidget
         return Employee::query()->get();
     }
 
+    public function getOptions(): array
+    {
+        return [
+            'slotMinTime' => '08:00:00',
+            'slotMaxTime' => '18:00:00',
+            'allDaySlot' => false,
+        ];
+    }
+
     protected function getViewOptions(): array
     {
         return [
@@ -55,16 +64,12 @@ class AppointmentCalendarWidget extends CalendarWidget
                     'month' => 'long',
                     'day' => 'numeric',
                 ],
-                'slotMinTime' => '08:00:00',
-                'slotMaxTime' => '18:00:00',
             ],
             CalendarViewType::ResourceTimeGridWeek->value => [
                 'titleFormat' => [
                     'year' => 'numeric',
                     'month' => 'long',
                 ],
-                'slotMinTime' => '08:00:00',
-                'slotMaxTime' => '18:00:00',
             ],
             CalendarViewType::DayGridMonth->value => [
                 'titleFormat' => [
