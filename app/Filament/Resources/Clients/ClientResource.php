@@ -54,12 +54,15 @@ class ClientResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')
+                    ->label('Nombre')
                     ->searchable(),
                 
                 TextColumn::make('email')
+                    ->label('Correo electrónico')
                     ->searchable(),
                 
                 TextColumn::make('phone_number')
+                    ->label('Número de teléfono')
                     ->searchable(),
             ])
             ->filters([

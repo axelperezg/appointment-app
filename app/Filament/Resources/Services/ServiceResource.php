@@ -65,15 +65,19 @@ class ServiceResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')
+                    ->label('Nombre')
                     ->searchable(),
                 
                 TextColumn::make('duration')
+                    ->label('Duración')
                     ->suffix(' min'),
                 
                 TextColumn::make('price')
+                    ->label('Precio')
                     ->money('USD'),
                 
-                ColorColumn::make('color'),
+                ColorColumn::make('color')
+                    ->label('Color'),
             ])
             ->filters([
                 //

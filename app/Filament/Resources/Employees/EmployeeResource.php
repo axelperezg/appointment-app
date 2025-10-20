@@ -31,24 +31,28 @@ class EmployeeResource extends Resource
         return $schema
             ->components([
                 TextInput::make('name')
+                    ->label('Nombre')
                     ->required()
                     ->maxLength(255),
                 
                 TextInput::make('email')
+                    ->label('Correo electrónico')
                     ->required()
                     ->email()
                     ->unique(ignoreRecord: true)
                     ->maxLength(255),
                 
                 TextInput::make('phone_number')
+                    ->label('Número de teléfono')
                     ->tel()
                     ->maxLength(255),
                 
                 TextInput::make('minimum_advance_booking')
+                    ->label('Reserva mínima anticipada')
                     ->numeric()
                     ->default(0)
-                    ->suffix('minutes')
-                    ->helperText('Minimum time required before booking (in minutes)'),
+                    ->suffix('minutos')
+                    ->helperText('Tiempo mínimo requerido antes de reservar (en minutos)'),
             ]);
     }
 
@@ -57,17 +61,20 @@ class EmployeeResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')
+                    ->label('Nombre')
                     ->searchable(),
                 
                 TextColumn::make('email')
+                    ->label('Correo electrónico')
                     ->searchable(),
                 
                 TextColumn::make('phone_number')
+                    ->label('Número de teléfono')
                     ->searchable(),
                 
                 TextColumn::make('minimum_advance_booking')
-                    ->suffix(' min')
-                    ->label('Min. Advance Booking'),
+                    ->label('Reserva mín. anticipada')
+                    ->suffix(' min'),
             ])
             ->filters([
                 //
