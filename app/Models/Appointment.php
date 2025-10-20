@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use Guava\Calendar\Contracts\Eventable;
+use Guava\Calendar\ValueObjects\CalendarEvent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Appointment extends Model
+class Appointment extends Model implements Eventable
 {
     use HasFactory;
 
@@ -40,5 +42,14 @@ class Appointment extends Model
     public function employee(): BelongsTo
     {
         return $this->belongsTo(Employee::class);
+    }
+
+    public function toCalendarEvent(): CalendarEvent
+    {
+        return CalendarEvent::make($this)
+            ->title($this->client->name . ' - ' . $this->service->name)
+            ->start($this->starts_at)
+            ->end($this->ends_at)
+            ->resourceId($this->employee_id);
     }
 }
