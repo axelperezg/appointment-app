@@ -14,6 +14,8 @@ use Illuminate\Support\Collection;
 
 class AppointmentCalendarWidget extends CalendarWidget
 {
+    protected static bool $isDiscovered = false;
+
     protected CalendarViewType $calendarView = CalendarViewType::ResourceTimeGridDay;
 
     protected ?string $locale = 'es';
