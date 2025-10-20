@@ -10,8 +10,6 @@ use Tests\TestCase;
 
 class CreateServiceTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function test_can_create_service(): void
     {
         // Arrange

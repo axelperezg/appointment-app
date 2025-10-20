@@ -10,8 +10,6 @@ use Tests\TestCase;
 
 class CreateEmployeeTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function test_can_create_employee(): void
     {
         // Arrange

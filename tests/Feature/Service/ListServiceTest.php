@@ -10,8 +10,6 @@ use Tests\TestCase;
 
 class ListServiceTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function test_can_list_services(): void
     {
         // Arrange

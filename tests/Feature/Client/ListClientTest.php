@@ -10,8 +10,6 @@ use Tests\TestCase;
 
 class ListClientTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function test_can_list_clients(): void
     {
         // Arrange

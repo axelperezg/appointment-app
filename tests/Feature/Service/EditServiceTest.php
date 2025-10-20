@@ -10,8 +10,6 @@ use Tests\TestCase;
 
 class EditServiceTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function test_can_edit_service(): void
     {
         // Arrange

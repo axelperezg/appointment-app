@@ -10,8 +10,6 @@ use Tests\TestCase;
 
 class EditEmployeeTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function test_can_edit_employee(): void
     {
         // Arrange

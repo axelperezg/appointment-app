@@ -9,8 +9,6 @@ use Tests\TestCase;
 
 class CalendarTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function test_calendar_page_can_be_rendered(): void
     {
         // Arrange

@@ -10,8 +10,6 @@ use Tests\TestCase;
 
 class CreateClientTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function test_can_create_client(): void
     {
         // Arrange

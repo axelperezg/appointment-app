@@ -10,8 +10,6 @@ use Tests\TestCase;
 
 class ListEmployeeTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function test_can_list_employees(): void
     {
         // Arrange
