@@ -9,9 +9,8 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
-use Filament\Schemas\Components\ColorPicker;
-use Filament\Schemas\Components\TextInput;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\ColorColumn;
@@ -24,28 +23,42 @@ class ServiceResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
+    protected static ?string $navigationLabel = 'Servicios';
+
+    protected static ?string $modelLabel = 'servicio';
+
+    protected static ?string $pluralModelLabel = 'servicios';
+
     public static function form(Schema $schema): Schema
     {
         return $schema
             ->components([
                 TextInput::make('name')
+                    ->label('Nombre')
                     ->required()
                     ->maxLength(255),
-                
+
                 TextInput::make('duration')
+                    ->label('Duración')
                     ->required()
                     ->numeric()
-                    ->suffix('minutes')
-                    ->helperText('Duration in minutes'),
-                
+                    ->suffix('minutos')
+                    ->helperText('Duración en minutos'),
+
                 TextInput::make('price')
+                    ->label('Precio')
                     ->required()
                     ->numeric()
                     ->prefix('$')
                     ->default(0),
-                
-                ColorPicker::make('color')
-                    ->required(),
+
+                TextInput::make('color')
+                    ->label('Color')
+                    ->required()
+                    ->maxLength(7)
+                    ->default('#FF6B6B')
+                    ->prefix('#')
+                    ->helperText('Código hex del color (ej: FF6B6B)'),
             ]);
     }
 
@@ -63,10 +76,6 @@ class ServiceResource extends Resource
                     ->money('USD'),
                 
                 ColorColumn::make('color'),
-                
-                TextColumn::make('created_at')
-                    ->dateTime()
-                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //

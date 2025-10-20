@@ -22,19 +22,28 @@ class ClientResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUserGroup;
 
+    protected static ?string $navigationLabel = 'Clientes';
+
+    protected static ?string $modelLabel = 'cliente';
+
+    protected static ?string $pluralModelLabel = 'clientes';
+
     public static function form(Schema $schema): Schema
     {
         return $schema
             ->components([
                 TextInput::make('name')
+                    ->label('Nombre')
                     ->required()
                     ->maxLength(255),
-                
+
                 TextInput::make('email')
+                    ->label('Correo electrónico')
                     ->email()
                     ->maxLength(255),
-                
+
                 TextInput::make('phone_number')
+                    ->label('Número de teléfono')
                     ->required()
                     ->tel()
                     ->unique(ignoreRecord: true)
@@ -54,10 +63,6 @@ class ClientResource extends Resource
                 
                 TextColumn::make('phone_number')
                     ->searchable(),
-                
-                TextColumn::make('created_at')
-                    ->dateTime()
-                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //

@@ -9,8 +9,8 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
-use Filament\Schemas\Components\TextInput;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
@@ -21,6 +21,12 @@ class EmployeeResource extends Resource
     protected static ?string $model = Employee::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUsers;
+
+    protected static ?string $navigationLabel = 'Empleados';
+
+    protected static ?string $modelLabel = 'empleado';
+
+    protected static ?string $pluralModelLabel = 'empleados';
 
     public static function form(Schema $schema): Schema
     {
@@ -64,10 +70,6 @@ class EmployeeResource extends Resource
                 TextColumn::make('minimum_advance_booking')
                     ->suffix(' min')
                     ->label('Min. Advance Booking'),
-                
-                TextColumn::make('created_at')
-                    ->dateTime()
-                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
