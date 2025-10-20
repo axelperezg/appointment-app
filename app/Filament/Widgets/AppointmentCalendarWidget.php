@@ -22,6 +22,8 @@ class AppointmentCalendarWidget extends CalendarWidget
 
     protected WeekDay $firstDay = WeekDay::Monday; // Lunes
 
+    protected ?string $timezone = 'America/Guayaquil';
+
     protected bool $dateClickEnabled = false;
 
     protected bool $eventClickEnabled = false;
