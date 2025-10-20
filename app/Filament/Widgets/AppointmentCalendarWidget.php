@@ -53,12 +53,16 @@ class AppointmentCalendarWidget extends CalendarWidget
                     'month' => 'long',
                     'day' => 'numeric',
                 ],
+                'slotMinTime' => '08:00:00',
+                'slotMaxTime' => '18:00:00',
             ],
             CalendarViewType::ResourceTimeGridWeek->value => [
                 'titleFormat' => [
                     'year' => 'numeric',
                     'month' => 'long',
                 ],
+                'slotMinTime' => '08:00:00',
+                'slotMaxTime' => '18:00:00',
             ],
             CalendarViewType::DayGridMonth->value => [
                 'titleFormat' => [
