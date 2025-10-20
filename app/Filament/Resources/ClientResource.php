@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Resources\Clients;
+namespace App\Filament\Resources;
 
-use App\Filament\Resources\Clients\Pages\ManageClients;
+use App\Filament\Resources\ClientResource\Pages\ManageClients;
 use App\Models\Client;
 use BackedEnum;
 use Filament\Actions\DeleteAction;
@@ -56,11 +56,11 @@ class ClientResource extends Resource
                 TextColumn::make('name')
                     ->label('Nombre')
                     ->searchable(),
-                
+
                 TextColumn::make('email')
                     ->label('Correo electrónico')
                     ->searchable(),
-                
+
                 TextColumn::make('phone_number')
                     ->label('Número de teléfono')
                     ->searchable(),

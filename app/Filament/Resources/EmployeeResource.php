@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Resources\Employees;
+namespace App\Filament\Resources;
 
-use App\Filament\Resources\Employees\Pages\ManageEmployees;
+use App\Filament\Resources\EmployeeResource\Pages\ManageEmployees;
 use App\Models\Employee;
 use BackedEnum;
 use Filament\Actions\DeleteAction;
@@ -34,19 +34,19 @@ class EmployeeResource extends Resource
                     ->label('Nombre')
                     ->required()
                     ->maxLength(255),
-                
+
                 TextInput::make('email')
                     ->label('Correo electrónico')
                     ->required()
                     ->email()
                     ->unique(ignoreRecord: true)
                     ->maxLength(255),
-                
+
                 TextInput::make('phone_number')
                     ->label('Número de teléfono')
                     ->tel()
                     ->maxLength(255),
-                
+
                 TextInput::make('minimum_advance_booking')
                     ->label('Reserva mínima anticipada')
                     ->numeric()
@@ -63,15 +63,15 @@ class EmployeeResource extends Resource
                 TextColumn::make('name')
                     ->label('Nombre')
                     ->searchable(),
-                
+
                 TextColumn::make('email')
                     ->label('Correo electrónico')
                     ->searchable(),
-                
+
                 TextColumn::make('phone_number')
                     ->label('Número de teléfono')
                     ->searchable(),
-                
+
                 TextColumn::make('minimum_advance_booking')
                     ->label('Reserva mín. anticipada')
                     ->suffix(' min'),

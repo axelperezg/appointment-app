@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Resources\Services;
+namespace App\Filament\Resources;
 
-use App\Filament\Resources\Services\Pages\ManageServices;
+use App\Filament\Resources\ServiceResource\Pages\ManageServices;
 use App\Models\Service;
 use BackedEnum;
 use Filament\Actions\DeleteAction;
@@ -67,15 +67,15 @@ class ServiceResource extends Resource
                 TextColumn::make('name')
                     ->label('Nombre')
                     ->searchable(),
-                
+
                 TextColumn::make('duration')
                     ->label('Duración')
                     ->suffix(' min'),
-                
+
                 TextColumn::make('price')
                     ->label('Precio')
                     ->money('USD'),
-                
+
                 ColorColumn::make('color')
                     ->label('Color'),
             ])
