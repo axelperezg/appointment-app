@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Service;
 
-use App\Filament\Resources\ServiceResource\Pages\EditService;
+use App\Filament\Resources\Services\Pages\EditService;
 use App\Models\Service;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;

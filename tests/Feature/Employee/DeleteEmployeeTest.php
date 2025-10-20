@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Employee;
 
-use App\Filament\Resources\EmployeeResource\Pages\ListEmployees;
+use App\Filament\Resources\Employees\Pages\ListEmployees;
 use App\Models\Employee;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;

@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Client;
 
-use App\Filament\Resources\ClientResource\Pages\EditClient;
+use App\Filament\Resources\Clients\Pages\EditClient;
 use App\Models\Client;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
