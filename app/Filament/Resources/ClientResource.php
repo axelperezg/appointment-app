@@ -3,15 +3,13 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ClientResource\Pages;
+use App\Filament\Resources\ClientResource\Schemas\ClientForm;
+use App\Filament\Resources\ClientResource\Tables\ClientsTable;
 use App\Models\Client;
 use BackedEnum;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\EditAction;
-use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 class ClientResource extends Resource
@@ -28,50 +26,12 @@ class ClientResource extends Resource
 
     public static function form(Schema $schema): Schema
     {
-        return $schema
-            ->components([
-                TextInput::make('name')
-                    ->label('Nombre')
-                    ->required()
-                    ->maxLength(255),
-
-                TextInput::make('email')
-                    ->label('Correo electrónico')
-                    ->email()
-                    ->maxLength(255),
-
-                TextInput::make('phone_number')
-                    ->label('Número de teléfono')
-                    ->required()
-                    ->tel()
-                    ->unique(ignoreRecord: true)
-                    ->maxLength(255),
-            ]);
+        return ClientForm::configure($schema);
     }
 
     public static function table(Table $table): Table
     {
-        return $table
-            ->columns([
-                TextColumn::make('name')
-                    ->label('Nombre')
-                    ->searchable(),
-
-                TextColumn::make('email')
-                    ->label('Correo electrónico')
-                    ->searchable(),
-
-                TextColumn::make('phone_number')
-                    ->label('Número de teléfono')
-                    ->searchable(),
-            ])
-            ->filters([
-                //
-            ])
-            ->actions([
-                EditAction::make(),
-                DeleteAction::make(),
-            ]);
+        return ClientsTable::configure($table);
     }
 
     public static function getPages(): array

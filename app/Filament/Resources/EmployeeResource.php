@@ -3,15 +3,13 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\EmployeeResource\Pages;
+use App\Filament\Resources\EmployeeResource\Schemas\EmployeeForm;
+use App\Filament\Resources\EmployeeResource\Tables\EmployeesTable;
 use App\Models\Employee;
 use BackedEnum;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\EditAction;
-use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 class EmployeeResource extends Resource
@@ -28,61 +26,12 @@ class EmployeeResource extends Resource
 
     public static function form(Schema $schema): Schema
     {
-        return $schema
-            ->components([
-                TextInput::make('name')
-                    ->label('Nombre')
-                    ->required()
-                    ->maxLength(255),
-
-                TextInput::make('email')
-                    ->label('Correo electrónico')
-                    ->required()
-                    ->email()
-                    ->unique(ignoreRecord: true)
-                    ->maxLength(255),
-
-                TextInput::make('phone_number')
-                    ->label('Número de teléfono')
-                    ->tel()
-                    ->maxLength(255),
-
-                TextInput::make('minimum_advance_booking')
-                    ->label('Reserva mínima anticipada')
-                    ->numeric()
-                    ->default(0)
-                    ->suffix('minutos')
-                    ->helperText('Tiempo mínimo requerido antes de reservar (en minutos)'),
-            ]);
+        return EmployeeForm::configure($schema);
     }
 
     public static function table(Table $table): Table
     {
-        return $table
-            ->columns([
-                TextColumn::make('name')
-                    ->label('Nombre')
-                    ->searchable(),
-
-                TextColumn::make('email')
-                    ->label('Correo electrónico')
-                    ->searchable(),
-
-                TextColumn::make('phone_number')
-                    ->label('Número de teléfono')
-                    ->searchable(),
-
-                TextColumn::make('minimum_advance_booking')
-                    ->label('Reserva mín. anticipada')
-                    ->suffix(' min'),
-            ])
-            ->filters([
-                //
-            ])
-            ->actions([
-                EditAction::make(),
-                DeleteAction::make(),
-            ]);
+        return EmployeesTable::configure($table);
     }
 
     public static function getPages(): array

@@ -3,16 +3,13 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ServiceResource\Pages;
+use App\Filament\Resources\ServiceResource\Schemas\ServiceForm;
+use App\Filament\Resources\ServiceResource\Tables\ServicesTable;
 use App\Models\Service;
 use BackedEnum;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\EditAction;
-use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
-use Filament\Tables\Columns\ColorColumn;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 class ServiceResource extends Resource
@@ -29,63 +26,12 @@ class ServiceResource extends Resource
 
     public static function form(Schema $schema): Schema
     {
-        return $schema
-            ->components([
-                TextInput::make('name')
-                    ->label('Nombre')
-                    ->required()
-                    ->maxLength(255),
-
-                TextInput::make('duration')
-                    ->label('Duración')
-                    ->required()
-                    ->numeric()
-                    ->suffix('minutos')
-                    ->helperText('Duración en minutos'),
-
-                TextInput::make('price')
-                    ->label('Precio')
-                    ->required()
-                    ->numeric()
-                    ->prefix('$')
-                    ->default(0),
-
-                TextInput::make('color')
-                    ->label('Color')
-                    ->required()
-                    ->maxLength(7)
-                    ->default('#FF6B6B')
-                    ->prefix('#')
-                    ->helperText('Código hex del color (ej: FF6B6B)'),
-            ]);
+        return ServiceForm::configure($schema);
     }
 
     public static function table(Table $table): Table
     {
-        return $table
-            ->columns([
-                TextColumn::make('name')
-                    ->label('Nombre')
-                    ->searchable(),
-
-                TextColumn::make('duration')
-                    ->label('Duración')
-                    ->suffix(' min'),
-
-                TextColumn::make('price')
-                    ->label('Precio')
-                    ->money('USD'),
-
-                ColorColumn::make('color')
-                    ->label('Color'),
-            ])
-            ->filters([
-                //
-            ])
-            ->actions([
-                EditAction::make(),
-                DeleteAction::make(),
-            ]);
+        return ServicesTable::configure($table);
     }
 
     public static function getPages(): array
