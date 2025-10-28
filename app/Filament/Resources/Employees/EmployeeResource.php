@@ -40,6 +40,7 @@ class EmployeeResource extends Resource
     {
         return [
             RelationManagers\ServicesRelationManager::class,
+            RelationManagers\SchedulesRelationManager::class,
         ];
     }
 
