@@ -51,9 +51,7 @@ class DatabaseSeeder extends Seeder
             $servicesToAttach = $allServices->random(rand(2, 4));
             
             foreach ($servicesToAttach as $service) {
-                $employee->services()->attach($service->id, [
-                    'price' => $service->price + rand(-10, 10), // Slight price variation per employee
-                ]);
+                $employee->services()->attach($service->id);
             }
         }
 

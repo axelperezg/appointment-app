@@ -42,7 +42,7 @@ class Employee extends Model implements Resourceable
 
     public function services(): BelongsToMany
     {
-        return $this->belongsToMany(Service::class)->withPivot('price')->withTimestamps();
+        return $this->belongsToMany(Service::class)->withTimestamps();
     }
 
     public function appointments(): HasMany

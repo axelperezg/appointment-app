@@ -27,7 +27,7 @@ class Service extends Model
 
     public function employees(): BelongsToMany
     {
-        return $this->belongsToMany(Employee::class)->withPivot('price')->withTimestamps();
+        return $this->belongsToMany(Employee::class)->withTimestamps();
     }
 
     public function appointments(): HasMany
