@@ -32,6 +32,16 @@ class AppointmentCalendarWidget extends CalendarWidget
 
     protected bool $eventDragEnabled = false;
 
+    protected $listeners = [
+        'refreshCalendar' => 'refreshCalendar',
+    ];
+
+    public function refreshCalendar(): void
+    {
+        $this->refreshRecords();
+        $this->refreshResources();
+    }
+
     protected function getEvents(FetchInfo $info): Collection|Builder
     {
         return Appointment::query()
