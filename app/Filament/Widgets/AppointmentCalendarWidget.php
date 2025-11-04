@@ -4,6 +4,7 @@ namespace App\Filament\Widgets;
 
 use App\Models\Appointment;
 use App\Models\Employee;
+use Carbon\Carbon;
 use Carbon\WeekDay;
 use Guava\Calendar\Actions\CreateAction;
 use Guava\Calendar\Enums\CalendarViewType;
@@ -24,7 +25,7 @@ class AppointmentCalendarWidget extends CalendarWidget
 
     protected ?string $timezone = 'America/Guayaquil';
 
-    protected bool $dateClickEnabled = false;
+    protected bool $dateClickEnabled = true;
 
     protected bool $eventClickEnabled = false;
 
@@ -40,6 +41,20 @@ class AppointmentCalendarWidget extends CalendarWidget
     {
         $this->refreshRecords();
         $this->refreshResources();
+    }
+
+    public function onDateClickJs(array $data): void
+    {
+        // Extract date, time, and resource (employee) from the click event (original date is in UTC)
+        $dateUtc = Carbon::parse($data['date'], 'UTC');
+        $date = $dateUtc->setTimezone(config('app.timezone'));
+
+        $clickedTime = $date->format('H:i:00');
+
+        $this->dispatch('open-create-modal', [
+            'date' => $date->format('Y-m-d'),
+            'start_time' => $clickedTime
+        ]);
     }
 
     protected function getEvents(FetchInfo $info): Collection|Builder

@@ -31,6 +31,23 @@ class Calendar extends Page
 
     protected string $view = 'filament.pages.calendar';
 
+    public ?string $prefilledDate = null;
+    public ?string $prefilledStartTime = null;
+    public ?int $prefilledEmployeeId = null;
+
+    protected $listeners = [
+        'open-create-modal' => 'openCreateModal',
+    ];
+
+    public function openCreateModal(array $data): void
+    {
+        $this->prefilledDate = $data['date'] ?? null;
+        $this->prefilledStartTime = $data['start_time'] ?? null;
+        
+        // Open the create action modal
+        $this->mountAction('create');
+    }
+
     protected function getHeaderWidgets(): array
     {
         return [
@@ -96,6 +113,7 @@ class Calendar extends Page
                                     ->required()
                                     ->searchable()
                                     ->placeholder('Selecciona un profesional')
+                                    ->default(fn () => $this->prefilledEmployeeId)
                                     ->disabled(fn (callable $get) => !$get('service_id'))
                                     ->reactive(),
 
@@ -103,7 +121,7 @@ class Calendar extends Page
                                     ->columnSpanFull()
                                     ->label('Fecha')
                                     ->required()
-                                    ->default(now())
+                                    ->default(fn () => $this->prefilledDate ?? now()->format('Y-m-d'))
                                     ->native(false)
                                     ->displayFormat('Y-m-d'),
 
@@ -113,6 +131,7 @@ class Calendar extends Page
                                     ->required()
                                     ->searchable()
                                     ->placeholder('Selecciona una hora')
+                                    ->default(fn () => $this->prefilledStartTime)
                                     ->live()
                                     ->afterStateUpdated(function ($state, callable $get, callable $set) {
                                         if ($state && $get('service_id')) {
@@ -215,6 +234,11 @@ class Calendar extends Page
                         ->send();
 
                     $this->dispatch('refreshCalendar');
+                    
+                    // Reset prefilled data after successful creation
+                    $this->prefilledDate = null;
+                    $this->prefilledStartTime = null;
+                    $this->prefilledEmployeeId = null;
                 }),
         ];
     }
