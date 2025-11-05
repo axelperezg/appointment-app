@@ -33,7 +33,7 @@ class WhatsappCreateAppointmentController extends Controller
 
             $service = Service::findOrFail($request->service_id);
             $employee = Employee::findOrFail($request->employee_id);
-            $timezone = config('app.timezone', 'America/Guayaquil');
+            $timezone = config('app.timezone');
             // Parse the date/time in local timezone, then convert to UTC for storage
             $dateTimeLocal = CarbonImmutable::parse("$request->date $request->time", $timezone);
             $dateTime = $dateTimeLocal->utc();

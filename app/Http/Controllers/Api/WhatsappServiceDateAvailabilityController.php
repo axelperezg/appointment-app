@@ -61,7 +61,7 @@ class WhatsappServiceDateAvailabilityController extends Controller
                 }
 
                 // Ensure we are still on the requested date (the helper may return next day if today has no schedule)
-                $hourCarbon = Carbon::parse($hourData['hour'])->setTimezone('America/Guayaquil');
+                $hourCarbon = Carbon::parse($hourData['hour'])->setTimezone(config('app.timezone'));
                 if ($hourCarbon->format('Y-m-d') !== Carbon::parse($date)->format('Y-m-d')) {
                     continue;
                 }

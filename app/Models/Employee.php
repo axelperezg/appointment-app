@@ -67,7 +67,7 @@ class Employee extends Model implements Resourceable
 
     public function getScheduleByDayAndService(string $date, Service $service, Employee $employee, bool $withAllHours = false): Collection
     {
-        $targetDate = Carbon::parse($date, 'America/Guayaquil');
+        $targetDate = Carbon::parse($date, config('app.timezone'));
 
         $hours = collect();
 

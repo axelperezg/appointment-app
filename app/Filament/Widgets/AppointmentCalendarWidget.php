@@ -23,9 +23,14 @@ class AppointmentCalendarWidget extends CalendarWidget
 
     protected WeekDay $firstDay = WeekDay::Monday; // Lunes
 
-    protected ?string $timezone = 'America/Guayaquil';
+    protected ?string $timezone = null;
 
     protected bool $dateClickEnabled = true;
+
+    public function mount(): void
+    {
+        $this->timezone = config('app.timezone');
+    }
 
     protected bool $eventClickEnabled = false;
 

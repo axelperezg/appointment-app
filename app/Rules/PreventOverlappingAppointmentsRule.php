@@ -27,7 +27,7 @@ class PreventOverlappingAppointmentsRule implements ValidationRule
 
     private function appointmentExists(): bool
     {
-        $timezone = config('app.timezone', 'America/Guayaquil');
+        $timezone = config('app.timezone');
         $startsAt = Carbon::parse("$this->date $this->startHour", $timezone)->utc();
         $endsAt = Carbon::parse("$this->date $this->endHour", $timezone)->utc();
 

@@ -16,7 +16,7 @@ class WhatsappAppointmentDetailsController extends Controller
         ]);
 
         $phoneNumber = $request->phone_number;
-        $timezone = config('app.timezone', 'America/Guayaquil');
+        $timezone = config('app.timezone');
 
         // Set locale to Spanish for date formatting
         $originalLocale = app()->getLocale();
