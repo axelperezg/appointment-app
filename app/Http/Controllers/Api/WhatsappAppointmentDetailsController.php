@@ -16,7 +16,6 @@ class WhatsappAppointmentDetailsController extends Controller
         ]);
 
         $phoneNumber = $request->phone_number;
-        $timezone = config('app.timezone');
 
         // Set locale to Spanish for date formatting
         $originalLocale = app()->getLocale();
@@ -30,11 +29,9 @@ class WhatsappAppointmentDetailsController extends Controller
             ->with(['client', 'service', 'employee'])
             ->orderBy('starts_at', 'asc')
             ->get()
-            ->map(function ($appointment) use ($timezone) {
-                // Convert from UTC (stored in DB) to local timezone
-                // Get raw value from DB and parse as UTC, then convert to local timezone
-                $startsAtRaw = $appointment->getRawOriginal('starts_at');
-                $startsAtLocal = Carbon::parse($startsAtRaw, 'UTC')->setTimezone($timezone);
+            ->map(function ($appointment) {
+                // Dates are now stored in local timezone, no conversion needed
+                $startsAtLocal = Carbon::parse($appointment->starts_at);
                 return [
                     'id' => $appointment->id,
                     'clientName' => $appointment->client->name,

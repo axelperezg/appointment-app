@@ -34,9 +34,8 @@ class WhatsappCreateAppointmentController extends Controller
             $service = Service::findOrFail($request->service_id);
             $employee = Employee::findOrFail($request->employee_id);
             $timezone = config('app.timezone');
-            // Parse the date/time in local timezone, then convert to UTC for storage
-            $dateTimeLocal = CarbonImmutable::parse("$request->date $request->time", $timezone);
-            $dateTime = $dateTimeLocal->utc();
+            // Parse the date/time in local timezone and keep it as-is
+            $dateTime = CarbonImmutable::parse("$request->date $request->time", $timezone);
             $phoneNumber = $request->phone_number;
 
             // Calcular la hora de fin de la cita
@@ -47,8 +46,8 @@ class WhatsappCreateAppointmentController extends Controller
                 'employee_id' => [
                     new PreventOverlappingAppointmentsRule(
                         $employee->id,
-                        $dateTimeLocal->format('H:i'),
-                        $endTime->setTimezone($timezone)->format('H:i'),
+                        $dateTime->format('H:i'),
+                        $endTime->format('H:i'),
                         $request->date
                     ),
                 ],
@@ -86,10 +85,8 @@ class WhatsappCreateAppointmentController extends Controller
             app()->setLocale('es');
             CarbonImmutable::setLocale('es');
 
-            // Convert from UTC (stored in DB) to local timezone
-            // Get raw value from DB and parse as UTC, then convert to local timezone
-            $startsAtRaw = $appointment->getRawOriginal('starts_at');
-            $startsAtLocal = CarbonImmutable::parse($startsAtRaw, 'UTC')->setTimezone($timezone);
+            // Dates are now stored in local timezone, no conversion needed
+            $startsAtLocal = CarbonImmutable::parse($appointment->starts_at);
 
             $response = response()->json([
                 'message' => 'Appointment created successfully',
