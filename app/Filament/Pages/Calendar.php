@@ -34,9 +34,11 @@ class Calendar extends Page
     public ?string $prefilledDate = null;
     public ?string $prefilledStartTime = null;
     public ?int $prefilledEmployeeId = null;
+    public ?int $selectedAppointmentId = null;
 
     protected $listeners = [
         'open-create-modal' => 'openCreateModal',
+        'open-appointment-details' => 'openAppointmentDetailsModal',
     ];
 
     public function openCreateModal(array $data): void
@@ -46,6 +48,16 @@ class Calendar extends Page
         
         // Open the create action modal
         $this->mountAction('create');
+    }
+
+    public function openAppointmentDetailsModal(array $data): void
+    {
+        $this->selectedAppointmentId = $data['appointment_id'] ?? null;
+        
+        if ($this->selectedAppointmentId) {
+            // Mount the action to open the modal
+            $this->mountAction('view');
+        }
     }
 
     protected function getHeaderWidgets(): array
@@ -239,6 +251,82 @@ class Calendar extends Page
                     $this->prefilledDate = null;
                     $this->prefilledStartTime = null;
                     $this->prefilledEmployeeId = null;
+                }),
+            Action::make('view')
+                ->label('Ver detalles')
+                ->icon('heroicon-o-eye')
+                ->modalHeading('Detalles de la cita')
+                ->modalCancelActionLabel('Cerrar')
+                ->modalSubmitAction(false)
+                ->schema(function (Schema $schema): Schema {
+                    $appointment = $this->selectedAppointmentId 
+                        ? Appointment::with(['client', 'service', 'employee'])->find($this->selectedAppointmentId)
+                        : null;
+
+                    if (!$appointment) {
+                        return $schema->components([]);
+                    }
+
+                    // Set locale to Spanish for date formatting
+                    $originalLocale = app()->getLocale();
+                    app()->setLocale('es');
+                    Carbon::setLocale('es');
+
+                    $startsAt = Carbon::parse($appointment->starts_at);
+                    $endsAt = Carbon::parse($appointment->ends_at);
+
+                    $formattedDate = $startsAt->isoFormat('D [de] MMMM, YYYY');
+                    $formattedStartTime = $startsAt->format('g:i A');
+                    $formattedEndTime = $endsAt->format('g:i A');
+
+                    // Restore original locale
+                    app()->setLocale($originalLocale);
+                    Carbon::setLocale($originalLocale);
+
+                    return $schema->components([
+                        Section::make()
+                            ->columnSpanFull()
+                            ->columns(2)
+                            ->schema([
+                                TextInput::make('client_name')
+                                    ->label('Cliente')
+                                    ->default($appointment->client->name ?? '-')
+                                    ->disabled(),
+
+                                TextInput::make('service_name')
+                                    ->label('Servicio')
+                                    ->default($appointment->service->name ?? '-')
+                                    ->disabled(),
+
+                                TextInput::make('employee_name')
+                                    ->label('Profesional')
+                                    ->default($appointment->employee->name ?? '-')
+                                    ->disabled(),
+
+                                TextInput::make('date')
+                                    ->label('Fecha')
+                                    ->default($formattedDate)
+                                    ->disabled()
+                                    ->columnSpanFull(),
+
+                                TextInput::make('start_time')
+                                    ->label('Hora Inicio')
+                                    ->default($formattedStartTime)
+                                    ->disabled(),
+
+                                TextInput::make('end_time')
+                                    ->label('Hora Fin')
+                                    ->default($formattedEndTime)
+                                    ->disabled(),
+
+                                Textarea::make('note')
+                                    ->label('Nota')
+                                    ->default($appointment->note ?: '-')
+                                    ->disabled()
+                                    ->rows(3)
+                                    ->columnSpanFull(),
+                            ]),
+                    ]);
                 }),
         ];
     }

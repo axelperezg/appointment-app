@@ -9,8 +9,10 @@ use Carbon\WeekDay;
 use Guava\Calendar\Actions\CreateAction;
 use Guava\Calendar\Enums\CalendarViewType;
 use Guava\Calendar\Filament\CalendarWidget;
+use Guava\Calendar\ValueObjects\EventClickInfo;
 use Guava\Calendar\ValueObjects\FetchInfo;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
 class AppointmentCalendarWidget extends CalendarWidget
@@ -32,7 +34,9 @@ class AppointmentCalendarWidget extends CalendarWidget
         $this->timezone = config('app.timezone');
     }
 
-    protected bool $eventClickEnabled = false;
+    protected bool $eventClickEnabled = true;
+
+    protected ?string $defaultEventClickAction = null; // Disable default action
 
     protected bool $eventResizeEnabled = false;
 
@@ -56,10 +60,25 @@ class AppointmentCalendarWidget extends CalendarWidget
 
         $clickedTime = $date->format('H:i:00');
 
-        $this->dispatch('open-create-modal', [
+        // Use dispatchUp to send event to parent page component
+        $this->dispatchUp('open-create-modal', [
             'date' => $date->format('Y-m-d'),
             'start_time' => $clickedTime
         ]);
+    }
+
+    protected function onEventClick(EventClickInfo $info, Model $event, ?string $action = null): void
+    {
+        // The event model is the Appointment instance
+        if ($event instanceof Appointment) {
+            // Use dispatchUp to send event to parent page component
+            $this->dispatch('open-appointment-details', [
+                'appointment_id' => $event->id
+            ]);
+        }
+        
+        // Don't call parent to prevent default action mounting
+        // The parent would try to mount an action, but we handle it ourselves
     }
 
     protected function getEvents(FetchInfo $info): Collection|Builder
